@@ -1,2 +1,2 @@
 # datasciencecoursera
-Coursera The Data Scientist’s Toolbox class files
+Coursera Johns Hopkins University Data Science Specialization class files
