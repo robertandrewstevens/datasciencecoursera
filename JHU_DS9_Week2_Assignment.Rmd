@@ -1,0 +1,76 @@
+---
+title: "Peer-graded Assignment: R Markdown and Leaflet"
+author: "Robert A. Stevens"
+date: '2019-02-18'
+output:
+  html_document:
+    keep_md: yes
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  comment = NA,
+  fig.width = 11,
+  fig.height = 8.5
+)
+
+library(tidyverse)
+library(leaflet)
+```
+
+The *John Deere Global Technology Innovation Network* consists of seven Technology Innovation Centers (TICs) around the world:
+
+```{r}
+# Moline Technology Innovation Center (MTIC) in Moline, IL, USA
+# 41.476732, -90.420013
+# John Deere Technology Innovation Center - Champaign (JDTIC-C) in Champaign, IL, USA
+# 40.088962, -88.239270
+# John Deere Technology Innovation Center - Ames (JDTIC-A) in Ames, IA, USA
+# 41.998822, -93.665638
+# European Technology Innovation Center (ETIC) in Kaiserslautern, Germany
+# 49.456145, 7.801322
+# Asia Technology Innovation Center (ATIC) in Pune, India
+# 18.512806, 73.926890
+# Latin America Technology Innovation Center (LATIC) in indaiatuba, Brazil
+# -23.008051, -47.117107
+# China Technology Innovation Center (CTIC) in Tianjin, China
+# 39.077408, 117.728238
+
+Abbr <- c("MTIC", "JDTIC-C", "JDTIC-A", "ETIC", "ATIC", "LATIC", "CTIC")
+Name <- c(
+  "Moline", 
+  "John Deere - Champaign", 
+  "John Deere - Ames", 
+  "European", 
+  "Asia", 
+  "Latin America", 
+  "China"
+)
+Location <- c(
+  "Moline, IL, USA", 
+  "Champaign, IL, USA", 
+  "Ames, IA, USA", 
+  "Kaiserslautern, Germany", 
+  "Pune, India", 
+  "Indaiatuba, Brazil", 
+  "Tianjin, China"
+)
+lat <- c( 41.476732,  40.088962,  41.998822, 49.456145, 18.512806, -23.008051,  39.077408)
+lon <- c(-90.420013, -88.239270, -93.638497,  7.801322, 73.926890, -47.117107, 117.728238)
+gtin <- data.frame(Abbr, Name, Location, lat, lon)
+gtin <- arrange(gtin, Abbr)
+gtin[c("Abbr", "Name", "Location")]
+```
+
+Zoom in on the markers to see each location.
+
+```{r}
+gtin %>% 
+  leaflet() %>% 
+  addTiles() %>%
+  addMarkers(~lon, ~lat, popup = ~as.character(Abbr), label = ~as.character(Abbr))
+```
+
+Visit the [John Deere web page](https://www.deere.com/en/index.html) for more company information.
